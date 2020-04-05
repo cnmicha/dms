@@ -66,6 +66,7 @@ namespace docsort.Forms
 
             btnStartProcessing.Enabled = false;
             btnMoveFiles.Enabled = false;
+            dgvDocuments.Enabled = false;
 
             await Task.Run(() =>
             {
@@ -108,6 +109,7 @@ namespace docsort.Forms
 
             btnStartProcessing.Enabled = true;
             btnMoveFiles.Enabled = true;
+            dgvDocuments.Enabled = true;
         }
 
         private bool CheckFileExtensionAllowed(string path)
@@ -244,11 +246,11 @@ namespace docsort.Forms
                 try
                 {
                     var oldStream = _pdfViewerFileStream;
-                    oldStream?.Close();
 
                     _pdfViewerFileStream =
                         new FileStream(document.Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     pdfViewer.Document = PdfDocument.Load(_pdfViewerFileStream);
+                    _pdfViewerFileStream.Close();
 
                     oldStream?.Dispose();
                 }
