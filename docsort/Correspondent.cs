@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace docsort
 {
@@ -8,20 +9,12 @@ namespace docsort
         public string SavePath { get; set; }
 
         // Semicolon separated
-        public string DetectPatterns { get; set; }
+        public string DetectRegex { get; set; }
 
         public bool MatchesText(string text)
         {
-            var detectPatternList = DetectPatterns.Split(';');
-            foreach (var pattern in detectPatternList)
-            {
-                if (text.ToLower().Contains(pattern.ToLower()))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var regex = new Regex(DetectRegex);
+            return regex.IsMatch(text);
         }
 
         public override string ToString()

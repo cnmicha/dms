@@ -32,10 +32,10 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dgvCorrespondents = new System.Windows.Forms.DataGridView();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.detectPatternsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.savePathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.correspondentBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetectRegex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.savePathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCorrespondents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.correspondentBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +67,7 @@
             this.dgvCorrespondents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCorrespondents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameDataGridViewTextBoxColumn,
-            this.detectPatternsDataGridViewTextBoxColumn,
+            this.DetectRegex,
             this.savePathDataGridViewTextBoxColumn});
             this.dgvCorrespondents.DataSource = this.correspondentBindingSource;
             this.dgvCorrespondents.Location = new System.Drawing.Point(12, 12);
@@ -75,19 +75,23 @@
             this.dgvCorrespondents.Size = new System.Drawing.Size(776, 397);
             this.dgvCorrespondents.TabIndex = 3;
             // 
+            // correspondentBindingSource
+            // 
+            this.correspondentBindingSource.DataSource = typeof(docsort.Correspondent);
+            // 
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.FillWeight = 250F;
+            this.nameDataGridViewTextBoxColumn.FillWeight = 300F;
             this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             // 
-            // detectPatternsDataGridViewTextBoxColumn
+            // DetectRegex
             // 
-            this.detectPatternsDataGridViewTextBoxColumn.DataPropertyName = "DetectPatterns";
-            this.detectPatternsDataGridViewTextBoxColumn.HeaderText = "Search patterns (semicolon separated)";
-            this.detectPatternsDataGridViewTextBoxColumn.Name = "detectPatternsDataGridViewTextBoxColumn";
-            this.detectPatternsDataGridViewTextBoxColumn.Width = 350;
+            this.DetectRegex.DataPropertyName = "DetectRegex";
+            this.DetectRegex.HeaderText = "Detection regex";
+            this.DetectRegex.Name = "DetectRegex";
+            this.DetectRegex.Width = 300;
             // 
             // savePathDataGridViewTextBoxColumn
             // 
@@ -95,10 +99,7 @@
             this.savePathDataGridViewTextBoxColumn.FillWeight = 250F;
             this.savePathDataGridViewTextBoxColumn.HeaderText = "Save path";
             this.savePathDataGridViewTextBoxColumn.Name = "savePathDataGridViewTextBoxColumn";
-            // 
-            // correspondentBindingSource
-            // 
-            this.correspondentBindingSource.DataSource = typeof(docsort.Correspondent);
+            this.savePathDataGridViewTextBoxColumn.Width = 300;
             // 
             // SettingsForm
             // 
@@ -126,7 +127,7 @@
         private System.Windows.Forms.DataGridView dgvCorrespondents;
         private System.Windows.Forms.BindingSource correspondentBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn detectPatternsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetectRegex;
         private System.Windows.Forms.DataGridViewTextBoxColumn savePathDataGridViewTextBoxColumn;
     }
 }

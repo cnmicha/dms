@@ -65,9 +65,9 @@ namespace docsort
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(correspondent.DetectPatterns))
+                if (string.IsNullOrWhiteSpace(correspondent.DetectRegex))
                 {
-                    MessageBox.Show(@"Correspondent: DetectPatterns must not be empty.", @"Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Correspondent: Detection regex must not be empty.", @"Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
                 

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ikvm.extensions;
+using PdfiumViewer;
 using TikaOnDotNet.TextExtraction;
 
 namespace docsort
@@ -16,6 +12,7 @@ namespace docsort
     public partial class MainForm : Form
     {
         private BindingList<Document> _documents = new BindingList<Document>();
+        private Stream _pdfViewerFileStream;
 
         public MainForm()
         {
@@ -154,24 +151,37 @@ namespace docsort
                     continue;
                 }
 
+                if (string.IsNullOrWhiteSpace(document.Date) || string.IsNullOrWhiteSpace(document.Subject))
+                {
+                    document.StatusText = "Fill out please";
+                    continue;
+                }
+
                 document.StatusText = "Moving...";
                 try
                 {
                     var sourcePath = document.Path;
-                    var fileName = Path.GetFileName(sourcePath);
+                    var fileName = document.Date + "_" + document.Subject + Path.GetExtension(document.Path);
                     var destinationPath = document.DetectedCorrespondent.SavePath + "\\" + fileName;
 
-                    Console.WriteLine($@"Moving {sourcePath} to {destinationPath}...");
-                    File.Move(sourcePath, destinationPath);
+                    if (File.Exists(destinationPath))
+                    {
+                        document.StatusText = "Error: Destination exists";
+                    }
+                    else
+                    {
+                        Console.WriteLine($@"Moving {sourcePath} to {destinationPath}...");
+                        File.Move(sourcePath, destinationPath);
 
-                    document.StatusText = "Finished";
+                        document.StatusText = "Finished";
+                    }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($@"Exception: {ex}");
                     ex.printStackTrace();
                     Console.WriteLine($@"Inner ex: {ex.InnerException}");
-                    ex.InnerException.printStackTrace();
+                    ex.InnerException?.printStackTrace();
 
                     document.StatusText = "Error moving";
                 }
@@ -207,19 +217,45 @@ namespace docsort
 
         private void dgvDocuments_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 5)
             {
                 // Button column clicked
-                HandleDataGridViewButtonClicked(_documents[e.RowIndex]);
+                if (e.RowIndex >= 0)
+                    HandleDataGridViewButtonClicked(_documents[e.RowIndex]);
             }
         }
 
         private void HandleDataGridViewButtonClicked(Document document)
         {
-            Console.WriteLine($@"Analyze: {document}");
+            Console.WriteLine($@"Analysis: {document}");
             MessageBox.Show($@"Press Ctrl+C to copy...
  Document {document.Path} with content:
 {GetPdfFileText(document.Path)}");
+        }
+
+        private void dgvDocuments_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            var document = _documents[e.RowIndex];
+            Console.WriteLine($@"Preview: {document}");
+
+            if (CheckFileExtensionAllowed(document.Path))
+            {
+                try
+                {
+                    var oldStream = _pdfViewerFileStream;
+                    oldStream?.Close();
+
+                    _pdfViewerFileStream =
+                        new FileStream(document.Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    pdfViewer.Document = PdfDocument.Load(_pdfViewerFileStream);
+
+                    oldStream?.Dispose();
+                }
+                catch (FileNotFoundException)
+                {
+                    // Nothing, file does not exist (maybe it was moved by this program)
+                }
+            }
         }
     }
 }

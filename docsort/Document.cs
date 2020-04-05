@@ -8,6 +8,8 @@ namespace docsort
     {
         private string _path;
         private Correspondent _detectedCorrespondent = null;
+        private string _date;
+        private string _subject;
         private string _statusText;
 
         public string Path
@@ -20,6 +22,11 @@ namespace docsort
             }
         }
 
+        public string FileName
+        {
+            get { return System.IO.Path.GetFileName(_path); }
+        }
+
         public Correspondent DetectedCorrespondent
         {
             get { return _detectedCorrespondent; }
@@ -27,6 +34,26 @@ namespace docsort
             {
                 _detectedCorrespondent = value;
                 OnPropertyChanged("DetectedCorrespondent");
+            }
+        }
+
+        public string Date
+        {
+            get { return _date; }
+            set
+            {
+                _date = value;
+                OnPropertyChanged("Date");
+            }
+        }
+
+        public string Subject
+        {
+            get { return _subject; }
+            set
+            {
+                _subject = value;
+                OnPropertyChanged("Subject");
             }
         }
 
