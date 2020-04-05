@@ -56,19 +56,22 @@ namespace docsort.Forms
             {
                 if (string.IsNullOrWhiteSpace(correspondent.Name))
                 {
-                    MessageBox.Show(@"Correspondent: Name must not be empty.", @"Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Correspondent: Name must not be empty.", @"Validation error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
                 if (string.IsNullOrWhiteSpace(correspondent.DetectRegex))
                 {
-                    MessageBox.Show(@"Correspondent: Detection regex must not be empty.", @"Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Correspondent: Detection regex must not be empty.", @"Validation error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
-                
+
                 if (string.IsNullOrWhiteSpace(correspondent.SavePath))
                 {
-                    MessageBox.Show(@"Correspondent: Save path must not be empty.", @"Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Correspondent: Save path must not be empty.", @"Validation error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
