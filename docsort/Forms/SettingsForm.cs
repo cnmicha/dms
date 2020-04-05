@@ -19,7 +19,7 @@ namespace docsort.Forms
         {
             foreach (var correspondent in Configuration.Values.Correspondents)
             {
-                _correspondents.Add(correspondent);
+                _correspondents.Add(correspondent.Clone());
             }
 
             dgvCorrespondents.DataSource = _correspondents;

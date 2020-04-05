@@ -20,5 +20,15 @@ namespace docsort.Models
         {
             return Name;
         }
+
+        public Correspondent Clone()
+        {
+            return new Correspondent()
+            {
+                Name = this.Name,
+                SavePath = this.SavePath,
+                DetectRegex = this.DetectRegex
+            };
+        }
     }
 }
