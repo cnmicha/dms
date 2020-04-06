@@ -147,6 +147,8 @@ namespace docsort.Forms
 
         private void btnMoveFiles_Click(object sender, EventArgs e)
         {
+            UnloadCurrentlyShownPdfFile();
+
             foreach (var document in _documents)
             {
                 if (document.DetectedCorrespondent == null)
@@ -204,6 +206,8 @@ namespace docsort.Forms
 
         private void btnRemoveFinished_Click(object sender, EventArgs e)
         {
+            UnloadCurrentlyShownPdfFile();
+
             for (int i = 0; i < _documents.Count;)
             {
                 var document = _documents[i];
@@ -243,16 +247,13 @@ namespace docsort.Forms
 
             if (CheckFileExtensionAllowed(document.Path))
             {
+                UnloadCurrentlyShownPdfFile();
+
                 try
                 {
-                    var oldStream = _pdfViewerFileStream;
-
                     _pdfViewerFileStream =
                         new FileStream(document.Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     pdfViewer.Document = PdfDocument.Load(_pdfViewerFileStream);
-                    _pdfViewerFileStream.Close();
-
-                    oldStream?.Dispose();
                 }
                 catch (FileNotFoundException)
                 {
@@ -261,9 +262,11 @@ namespace docsort.Forms
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void UnloadCurrentlyShownPdfFile()
         {
-
+            _pdfViewerFileStream?.Close();
+            _pdfViewerFileStream?.Dispose();
+            _pdfViewerFileStream = null;
         }
     }
 }
