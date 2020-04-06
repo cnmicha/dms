@@ -166,7 +166,7 @@ namespace docsort.Forms
                 try
                 {
                     var sourcePath = document.Path;
-                    var fileName = document.Date + "_" + document.Subject + Path.GetExtension(document.Path);
+                    var fileName = document.Date + " " + document.Subject + Path.GetExtension(document.Path);
                     var destinationPath = document.DetectedCorrespondent.SavePath + "\\" + fileName;
 
                     if (File.Exists(destinationPath))
